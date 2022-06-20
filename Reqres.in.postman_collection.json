@@ -1,0 +1,291 @@
+{
+	"info": {
+		"_postman_id": "3f21c96e-61f9-442d-bb23-da29288ce071",
+		"name": "Reqres.in",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19780105"
+	},
+	"item": [
+		{
+			"name": "get Metodu",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"Body=JSON.parse(responseBody);\r",
+							"var firstName=Body.data[0].first_name;\r",
+							"var lastName=Body.data[0].last_name;\r",
+							"var email=Body.data[0].email;\r",
+							"var idValue=Body.data[0].id;\r",
+							"\r",
+							"console.log(\"Firstname :\"+firstName);\r",
+							"console.log(\"Lastname : \"+lastName);\r",
+							"console.log(\"Email : \"+email);\r",
+							"console.log(\"id : \"+idValue);\r",
+							"\r",
+							"pm.environment.set(\"id\", idValue);\r",
+							"pm.environment.set(\"email\", email);\r",
+							"pm.environment.set(\"first_name\", firstName);\r",
+							"pm.environment.set(\"last_name\", lastName);\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Body matches Emma\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Emma\");\r",
+							"});\r",
+							"pm.test(\"Your test name\", function () {\r",
+							"    var jsonData = pm.response.json()\r",
+							"    pm.expect(jsonData.data[5].first_name).to.eql('Tracey')\r",
+							"})\r",
+							"\r",
+							"\r",
+							"postman.setNextRequest(\"UpdateUser\");\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/users",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    payload=JSON.parse(responseBody);\r",
+							"    var nameValue=payload.name;\r",
+							"    var jobValue=payload.job;\r",
+							"    var idValue=payload.id;\r",
+							"\r",
+							"    console.log(\"nameValue :\"+nameValue);\r",
+							"    console.log(\"JobValue : \"+jobValue);\r",
+							"    console.log(\"idValue : \"+idValue);\r",
+							"\r",
+							"\r",
+							"    pm.environment.set(\"name\", nameValue);\r",
+							"    pm.environment.set(\"job\",jobValue);\r",
+							"    pm.environment.set(\"id\",idValue);\r",
+							"\r",
+							"    postman.setNextRequest(\"GetUserList\");\r",
+							"\r",
+							"    pm.test(\"Status code is 201\", function () {\r",
+							"        pm.response.to.have.status(201);\r",
+							"    });\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"    pm.test(\"Body matches string\", function () {\r",
+							"        pm.expect(pm.response.text()).to.include(\"Suat\");\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"suat\",\r\n    \"lastname\":\"ziyak\",\r\n    \"job\":\"taklaci\"\r\n   \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/users",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users/{{id}}",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "global variable",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/users",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pust Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"payload=JSON.parse(responseBody)\r",
+							"\r",
+							"var name=payload.name;\r",
+							"var lastname=payload.lastname\r",
+							"var id=payload.id\r",
+							"\r",
+							"\r",
+							"pm.environment.set(\"name\",name);\r",
+							"pm.environment.set(\"lastname\",lastname)\r",
+							"pm.environment.set(\"id\",id)\r",
+							"\r",
+							"\r",
+							"postman.setNextRequest(\"GetUserList\")\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Body matches Suat\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Suat\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"name\",\"Hayat\")\r",
+							"pm.environment.set(\"lastname\",\"zor\")\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"{{name}}\",\r\n    \"lastname\":\"{{lastname}}\",\r\n    \"id\":\"{{id}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/users/{{id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "page",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}
